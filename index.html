@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookly — электронная книжка для рецептов</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #212121;
+            color: #f4f4f4;
+            font-family: "Inter", sans-serif;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            height: 100vh;
+            background: radial-gradient(circle at left, #82ff82 0%, #f4f4f4 150%);
+            background-size: 400% 400%;
+            animation: animationName 10s ease infinite;
+        }
+
+        @keyframes animationName {
+
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+
+        }
+
+        .header {
+            font-size: 5.5rem;
+            width: 50%;
+            position: relative;
+            left: 30px;
+            color: #212121;
+        }
+
+        .btn {
+            padding: 30px 50px;
+            font-size: 2rem;
+            border-radius: 30px;
+            border: none;
+            position: relative;
+            left: 30px;
+            top: 40px;
+            transition: 0.3s;
+            color: #212121;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            background: linear-gradient(90deg, #7fff7f 0%, #f4f4f4 100%);
+        }
+
+        .book {
+            width: 800px;
+            height: 600px;
+            position: absolute;
+            right: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 class="header">Bookly — электронная книжка для рецептов еды</h1>
+
+    <a href="app.html">
+        <button class="btn">Приступить</button>
+    </a>
+
+    <img src="/img/book.png" alt="Книга" class="book">
+</body>
+
+</html>
