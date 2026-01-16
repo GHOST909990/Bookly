@@ -644,6 +644,11 @@
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         .image-upload-container:hover {
@@ -661,35 +666,27 @@
             color: var(--gray-color);
             margin-bottom: 8px;
             font-size: 0.9rem;
+            text-align: center;
         }
 
         .image-upload-btn {
             background-color: var(--secondary-color);
             color: white;
             border: none;
-            padding: 8px 15px;
+            padding: 10px 20px;
             border-radius: 5px;
             cursor: pointer;
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 16px;
             display: inline-block;
             position: relative;
             z-index: 2;
+            min-height: 44px;
+            margin-top: 10px;
         }
 
-        /* Исправление для мобильных устройств */
-        .file-input-wrapper {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            cursor: pointer;
-            z-index: 3;
-        }
-
-        #recipe-image {
+        /* Файловый инпут - исправлено для iOS */
+        .file-input {
             position: absolute;
             width: 100%;
             height: 100%;
@@ -698,6 +695,7 @@
             opacity: 0;
             cursor: pointer;
             z-index: 3;
+            font-size: 16px !important;
         }
 
         #image-preview {
@@ -713,6 +711,7 @@
             position: relative;
             display: inline-block;
             width: 100%;
+            margin-top: 10px;
         }
 
         .remove-image-btn {
@@ -730,6 +729,7 @@
             align-items: center;
             justify-content: center;
             z-index: 4;
+            font-size: 16px;
         }
 
         .form-actions {
@@ -796,6 +796,24 @@
             margin-bottom: 20px;
             line-height: 1.6;
             font-size: 0.95rem;
+        }
+
+        /* Исправление для iOS Safari */
+        @supports (-webkit-touch-callout: none) {
+            .image-upload-btn {
+                -webkit-appearance: none;
+                appearance: none;
+            }
+            
+            .file-input {
+                -webkit-appearance: none;
+                appearance: none;
+                font-size: 16px !important;
+            }
+            
+            input, textarea, select {
+                font-size: 16px !important;
+            }
         }
 
         /* Responsive */
@@ -910,6 +928,10 @@
                 height: 250px;
             }
 
+            .image-upload-container {
+                min-height: 200px;
+            }
+
         }
 
         @media (min-width: 992px) {
@@ -938,6 +960,15 @@
         @media (max-width: 767px) {
             nav {
                 display: none;
+            }
+            
+            .image-upload-container {
+                min-height: 150px;
+            }
+            
+            .image-upload-btn {
+                font-size: 14px;
+                padding: 8px 16px;
             }
         }
 
@@ -1002,6 +1033,7 @@
 
             .image-upload-container {
                 padding: 15px;
+                min-height: 140px;
             }
 
             .image-upload-icon {
@@ -1115,14 +1147,15 @@
                     <div class="form-group">
                         <label for="recipe-image">Изображение блюда</label>
                         <div class="image-upload-container" id="image-upload-container">
-                            <div class="file-input-wrapper">
-                                <input type="file" id="recipe-image" accept="image/*" class="file-input">
-                            </div>
+                            <!-- Прямой input для загрузки файла - исправлено для iOS -->
+                            <input type="file" id="recipe-image" accept="image/*" class="file-input">
+                            
                             <div class="image-upload-icon">
                                 <i class="fas fa-cloud-upload-alt"></i>
                             </div>
                             <p class="image-upload-text">Нажмите в любом месте, чтобы загрузить изображение</p>
                             <button type="button" class="image-upload-btn" id="upload-image-btn">Выбрать файл</button>
+                            
                             <div class="image-preview-container">
                                 <img id="image-preview" alt="Превью изображения">
                                 <button type="button" class="remove-image-btn" id="remove-image-btn"
@@ -1277,7 +1310,7 @@
                 id: 4,
                 name: "Пельмени домашние",
                 category: "Мучное",
-                description: "1. Приготовить тесто: смешать муку, яйцо, воду и соль, замесить тесто.\n2. Для начинки смешать фарш, лук, соль и перец.\n3. Тесто раскатать тонким слоем и вырезать кружки.\n4. На каждый кружок положить начинку, защипнуть края.\n5. Варить пельмени в подсоленной воде 5-7 минут после всплытия.\n6. Подавать со сметаной, маслом или уксусом.",
+                description: "1. Приготовить тесто: смешать муку, яйцо, воду и соль, замесить тедо.\n2. Для начинки смешать фарш, лук, соль и перец.\n3. Тесто раскатать тонким слоем и вырезать кружки.\n4. На каждый кружок положить начинку, защипнуть края.\n5. Варить пельмени в подсоленной воде 5-7 минут после всплытия.\n6. Подавать со сметаной, маслом или уксусом.",
                 ingredients: "Мука 500г\nЯйцо 1 шт\nВода 200мл\nФарш мясной 500г\nЛук репчатый 1 шт\nСоль, перец по вкусу",
                 date: "2026-09-28",
                 image: "https://images.unsplash.com/photo-1509440159596-0249088772ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
@@ -1325,7 +1358,7 @@
         const searchInput = document.getElementById('search-input');
         const searchBtn = document.getElementById('search-btn');
 
-        // Загрузка изображений
+        // Загрузка изображений - ИСПРАВЛЕНО ДЛЯ iOS
         const imageUploadContainer = document.getElementById('image-upload-container');
         const uploadImageBtn = document.getElementById('upload-image-btn');
         const recipeImageInput = document.getElementById('recipe-image');
@@ -1529,21 +1562,45 @@
                 addRecipe();
             });
 
-            // Загрузка изображения - ИСПРАВЛЕНО ДЛЯ МОБИЛЬНЫХ
-            uploadImageBtn.addEventListener('click', () => {
+            // ЗАГРУЗКА ИЗОБРАЖЕНИЯ - ИСПРАВЛЕНО ДЛЯ iOS
+            // Клик по кнопке выбора файла
+            uploadImageBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                // Для iOS: сбрасываем значение перед открытием
+                if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
+                    recipeImageInput.value = '';
+                }
                 recipeImageInput.click();
             });
 
             // Клик по всей области контейнера
             imageUploadContainer.addEventListener('click', (e) => {
-                // Предотвращаем срабатывание на дочерних элементах
-                if (e.target !== uploadImageBtn && e.target !== removeImageBtn && !e.target.closest('.remove-image-btn')) {
+                // Не срабатывает при клике на кнопки или элементы управления
+                if (!e.target.matches('.remove-image-btn') && 
+                    !e.target.closest('.remove-image-btn') &&
+                    e.target !== uploadImageBtn &&
+                    e.target !== imagePreview) {
+                    // Для iOS: сбрасываем значение перед открытием
+                    if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
+                        recipeImageInput.value = '';
+                    }
                     recipeImageInput.click();
                 }
             });
 
+            // Обработчик выбора файла
             recipeImageInput.addEventListener('change', handleImageUpload);
 
+            // Для iOS Safari: обработчик клика для сброса значения
+            recipeImageInput.addEventListener('click', function(e) {
+                // iOS Safari требует сброса значения для повторного выбора того же файла
+                if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
+                    this.value = '';
+                }
+            });
+
+            // Удаление изображения
             removeImageBtn.addEventListener('click', () => {
                 clearImagePreview();
             });
@@ -1640,33 +1697,50 @@
             }
         }
 
-        // Загрузка изображения
+        // Загрузка изображения - ИСПРАВЛЕННАЯ ФУНКЦИЯ
         function handleImageUpload(event) {
             const file = event.target.files[0];
-
-            if (!file) return;
-
+            
+            if (!file) {
+                console.log('No file selected');
+                return;
+            }
+            
+            // Для отладки
+            console.log('File selected:', file.name, file.type, file.size);
+            
             // Проверка типа файла
             if (!file.type.match('image.*')) {
                 alert('Пожалуйста, выберите файл изображения (JPEG, PNG, GIF и т.д.)');
                 return;
             }
-
+            
             // Проверка размера файла (максимум 5MB)
             if (file.size > 5 * 1024 * 1024) {
                 alert('Размер файла не должен превышать 5MB');
                 return;
             }
-
+            
             const reader = new FileReader();
-
+            
             reader.onload = function (e) {
+                console.log('File loaded successfully');
                 imagePreview.src = e.target.result;
                 imagePreview.style.display = 'block';
                 removeImageBtn.style.display = 'flex';
                 currentImageData = e.target.result;
+                
+                // Обновляем текст кнопки для визуального подтверждения
+                uploadImageBtn.textContent = 'Файл выбран';
+                uploadImageBtn.style.backgroundColor = '#4CAF50';
             };
-
+            
+            reader.onerror = function () {
+                console.error('Error reading file');
+                alert('Ошибка при чтении файла. Пожалуйста, попробуйте другой файл.');
+                clearImagePreview();
+            };
+            
             reader.readAsDataURL(file);
         }
 
@@ -1677,6 +1751,10 @@
             removeImageBtn.style.display = 'none';
             recipeImageInput.value = '';
             currentImageData = '';
+            
+            // Сброс кнопки
+            uploadImageBtn.textContent = 'Выбрать файл';
+            uploadImageBtn.style.backgroundColor = 'var(--secondary-color)';
         }
 
         // Добавление нового рецепта
