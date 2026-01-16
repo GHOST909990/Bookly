@@ -31,7 +31,6 @@
             line-height: 1.6;
             overflow-x: hidden;
             width: 100%;
-            -webkit-tap-highlight-color: transparent;
         }
 
         .container {
@@ -132,7 +131,6 @@
             gap: 6px;
             transition: all 0.3s ease;
             font-size: 14px;
-            -webkit-appearance: none;
         }
 
         .add-recipe-btn:hover {
@@ -175,7 +173,6 @@
             border: none;
             font-size: 16px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            -webkit-appearance: none;
         }
 
         .search-btn {
@@ -191,7 +188,6 @@
             height: 45px;
             cursor: pointer;
             font-size: 16px;
-            -webkit-appearance: none;
         }
 
         /* Categories */
@@ -412,7 +408,6 @@
             transition: all 0.3s ease;
             width: 100%;
             justify-content: center;
-            -webkit-appearance: none;
         }
 
         .delete-recipe-btn:hover {
@@ -487,7 +482,6 @@
             cursor: pointer;
             line-height: 1;
             flex-shrink: 0;
-            -webkit-appearance: none;
         }
 
         .modal-body {
@@ -629,7 +623,6 @@
             border-radius: 6px;
             font-size: 15px;
             transition: border 0.3s ease;
-            -webkit-appearance: none;
         }
 
         .form-control:focus {
@@ -651,7 +644,6 @@
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
-            background-color: white;
         }
 
         .image-upload-container:hover {
@@ -683,33 +675,29 @@
             display: inline-block;
             position: relative;
             z-index: 2;
-            -webkit-appearance: none;
         }
 
-        /* Исправление для iOS */
-        .ios-file-input-fix {
+        /* Исправление для мобильных устройств */
+        .file-input-wrapper {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            opacity: 0.001;
+            opacity: 0;
             cursor: pointer;
-            z-index: 10;
-            font-size: 100px;
+            z-index: 3;
         }
 
         #recipe-image {
-            display: block;
             position: absolute;
             width: 100%;
             height: 100%;
             top: 0;
             left: 0;
-            opacity: 0.001;
+            opacity: 0;
             cursor: pointer;
-            z-index: 10;
-            font-size: 100px;
+            z-index: 3;
         }
 
         #image-preview {
@@ -741,8 +729,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 11;
-            -webkit-appearance: none;
+            z-index: 4;
         }
 
         .form-actions {
@@ -762,7 +749,6 @@
             transition: all 0.3s ease;
             font-size: 0.95rem;
             flex-grow: 1;
-            -webkit-appearance: none;
         }
 
         .btn-primary {
@@ -1129,9 +1115,9 @@
                     <div class="form-group">
                         <label for="recipe-image">Изображение блюда</label>
                         <div class="image-upload-container" id="image-upload-container">
-                            <!-- Исправление для iOS -->
-                            <input type="file" id="recipe-image" accept="image/*" capture="environment" class="ios-file-input-fix">
-                            
+                            <div class="file-input-wrapper">
+                                <input type="file" id="recipe-image" accept="image/*" class="file-input">
+                            </div>
                             <div class="image-upload-icon">
                                 <i class="fas fa-cloud-upload-alt"></i>
                             </div>
@@ -1543,32 +1529,18 @@
                 addRecipe();
             });
 
-            // Загрузка изображения - ИСПРАВЛЕНО ДЛЯ iOS
+            // Загрузка изображения - ИСПРАВЛЕНО ДЛЯ МОБИЛЬНЫХ
             uploadImageBtn.addEventListener('click', () => {
                 recipeImageInput.click();
             });
 
-            // Для iOS: обработка клика по контейнеру
+            // Клик по всей области контейнера
             imageUploadContainer.addEventListener('click', (e) => {
                 // Предотвращаем срабатывание на дочерних элементах
-                if (e.target !== uploadImageBtn && 
-                    e.target !== removeImageBtn && 
-                    !e.target.closest('.remove-image-btn') &&
-                    e.target !== imagePreview) {
+                if (e.target !== uploadImageBtn && e.target !== removeImageBtn && !e.target.closest('.remove-image-btn')) {
                     recipeImageInput.click();
                 }
             });
-
-            // Также обрабатываем touch события для iOS
-            imageUploadContainer.addEventListener('touchstart', (e) => {
-                if (e.target !== uploadImageBtn && 
-                    e.target !== removeImageBtn && 
-                    !e.target.closest('.remove-image-btn') &&
-                    e.target !== imagePreview) {
-                    e.preventDefault();
-                    recipeImageInput.click();
-                }
-            }, { passive: false });
 
             recipeImageInput.addEventListener('change', handleImageUpload);
 
